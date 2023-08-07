@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Image from 'next/image'
 
 type Content = {
@@ -52,7 +52,7 @@ const content: Content = {
 }
 export default function Home() {
 
-  const [image, setImage] = useState(getRandomImage(content))
+  const [image, setImage] = useState('')
   const [videoUrl, setVideoUrl] = useState('/videos/sample.mp4')
   const [showModal, setShowModal] = useState(false)
   const [modalImage, setModalImage] = useState('')
@@ -74,6 +74,10 @@ export default function Home() {
     setShowModal(false)
   }
 
+  useEffect(() => {
+    setImage(getRandomImage(content))
+  }, [])
+
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between"
@@ -82,7 +86,9 @@ export default function Home() {
           随机记忆
       </button>
       <div className="flex flex-wrap justify-center my-2">
-        {/* {!!image && (<Image width={480} height={360} src={`${image}`} alt={''} />)} */}
+        <div className="w-[480px] h-[360px]">
+          {!!image && (<Image width={480} height={360} src={image || ''} alt={''} />)}
+        </div>
       </div>
       <div className="flex">
         <div className="mb-32">
