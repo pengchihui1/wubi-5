@@ -82,9 +82,7 @@ export default function Home() {
           随机记忆
       </button>
       <div className="flex flex-wrap justify-center my-2">
-        <div>
-          <Image width={480} height={360} src={`${image}?${Date.now()}`} alt={''} />
-        </div>
+        {/* {!!image && (<Image width={480} height={360} src={`${image}`} alt={''} />)} */}
       </div>
       <div className="flex">
         <div className="mb-32">
@@ -95,7 +93,7 @@ export default function Home() {
                   <p className="text-[24px]">{key}</p>
                   {content[key].map((item: string) => (
                     <div key={item} className="w-20 h-20 m-2 cursor-pointer">
-                      <Image width={480} height={360} src={`${item}?${Date.now()}`} alt={''} onClick={() => handleImageClick(item)} />
+                      <Image width={480} height={360} src={`${item}`} alt={''} onClick={() => handleImageClick(item)} />
                     </div>
                   ))}
                 </div>
@@ -117,11 +115,11 @@ export default function Home() {
         </div>
       </div>
 
-      {showModal && (
+      {showModal && modalImage && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="relative">
             <button onClick={handleCloseModal} className="absolute top-0 right-0 rounded-[50%] p-4 bg-red-400 text-white text-[24px]">关闭</button>
-            <Image width={480} height={360} src={`${modalImage}?${Date.now()}`} alt={''} />
+            <Image width={480} height={360} src={`${modalImage}`} alt={''} />
           </div>
         </div>
       )}
