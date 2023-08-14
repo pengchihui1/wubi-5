@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Image from 'next/image'
 
-import {content} from '../public/data/data'
+import {content, jiqiao} from '../public/data/data'
 import {kanji} from '../public/data/kanjiDictionary'
 
 type Content = {
@@ -84,7 +84,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex">
-        <div className="mb-32">
+        <div>
           {Object.keys(content).map((key) => (
             <div key={key} className="flex flex-col items-center justify-center">
               <div className="flex flex-col items-center justify-center">
@@ -107,7 +107,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="mb-32">
+        <div>
           <div className="flex flex-col items-center justify-center">
             <div className="mb-4 text-4xl font-bold text-gray-600 dark:text-gray-100">
              五笔歌曲
@@ -120,7 +120,20 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+      <div className="flex flex-col mb-10">
+        {Object.keys(jiqiao).map((key) => (
+          <div key={key} className="flex items-center">
+            <div>
+              <h1 className="text-2xl font-bold my-2 text-gray-600 dark:text-gray-100">{key}</h1>
+              {jiqiao[key].map((item: string) => (
+                <div key={item}>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
       {showModal && modalImage && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="relative">
