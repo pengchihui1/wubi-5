@@ -28,6 +28,7 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false)
   const [modalImage, setModalImage] = useState('')
   const [word, setWord] = useState('')
+  const [input, setInput] = useState('')
 
   function handleClick() {
     setImage(getRandomImage(content))
@@ -60,11 +61,17 @@ export default function Home() {
             随机记忆
         </button>
         <button
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md"
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md "
           onClick={() => {setWord(getRandWord(kanji))}}
         >
             随机汉字：{word || ''}
         </button>
+      </div>
+      <div className="my-2">
+        <input type="text" placeholder="" value={input} onChange={(e) => { setInput(e.target.value)}} />
+        <button
+          className="bg-blue-400  mx-2 rounded-md p-2 text-white"
+          onClick={() => {setInput('')}}>清空</button>
       </div>
       <div className="flex flex-wrap justify-center my-2">
         <div className="w-[480px] h-[360px]">
