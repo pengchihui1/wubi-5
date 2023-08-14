@@ -15,39 +15,39 @@ function getRandomImage(content: Content) {
 
 const content: Content = {
   '横':[
-    '/images/G.png',
-    '/images/F.png',
-    '/images/D.png',
-    '/images/S.png',
-    '/images/A.png',
+    '/image/g.png',
+    '/image/f.png',
+    '/image/d.png',
+    '/image/s.png',
+    '/image/a.png',
   ],
   '竖':[
-    '/images/H.png',
-    '/images/J.png',
-    '/images/K.png',
-    '/images/L.png',
-    '/images/M.png',
+    '/image/h.png',
+    '/image/j.png',
+    '/image/k.png',
+    '/image/l.png',
+    '/image/m.png',
   ],
   '撇':[
-    '/images/T.png',
-    '/images/R.png',
-    '/images/E.png',
-    '/images/W.png',
-    '/images/Q.png',
+    '/image/t.png',
+    '/image/r.png',
+    '/image/e.png',
+    '/image/w.png',
+    '/image/q.png',
   ],
   '捺':[
-    '/images/Y.png',
-    '/images/U.png',
-    '/images/I.png',
-    '/images/O.png',
-    '/images/P.png',
+    '/image/y.png',
+    '/image/u.png',
+    '/image/i.png',
+    '/image/o.png',
+    '/image/p.png',
   ],
   '折':[
-    '/images/X.png',
-    '/images/C.png',
-    '/images/V.png',
-    '/images/B.png',
-    '/images/N.png',
+    '/image/x.png',
+    '/image/c.png',
+    '/image/v.png',
+    '/image/b.png',
+    '/image/n.png',
   ],
 }
 export default function Home() {
@@ -88,10 +88,9 @@ export default function Home() {
       <div className="flex flex-wrap justify-center my-2">
         <div className="w-[480px] h-[360px]">
           {!!image && (<Image
-            layout="fill"
-            objectFit="cover"
             width={480}
             height={360}
+            priority={true}
             src={image || ''}
             alt={image || ''} />)}
         </div>
@@ -106,10 +105,9 @@ export default function Home() {
                   {content[key].map((item: string) => (
                     <div key={item} className="w-20 h-20 m-2 cursor-pointer">
                       <Image
-                        layout="fill"
-                        objectFit="cover"
                         width={480}
                         height={360}
+                        priority={true}
                         src={`${item}`}
                         alt={''}
                         onClick={() => handleImageClick(item)}
@@ -140,9 +138,9 @@ export default function Home() {
           <div className="relative">
             <button onClick={handleCloseModal} className="absolute top-0 right-0 rounded-[50%] p-4 bg-red-400 text-white text-[24px]">关闭</button>
             <Image
-              layout="fill"
               width={480}
               height={360}
+              priority={true}
               src={`${modalImage}`}
               alt={modalImage} />
           </div>
