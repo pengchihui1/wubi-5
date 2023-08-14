@@ -91,7 +91,7 @@ export default function Home() {
                 <div className="flex flex-wrap justify-center items-center">
                   <p className="text-[24px]">{key}</p>
                   {content[key].map((item: string) => (
-                    <div key={item} className="w-20 h-20 m-2 cursor-pointer">
+                    <div key={item} className="w-40 h-40 m-2 cursor-pointer">
                       <Image
                         width={480}
                         height={360}
