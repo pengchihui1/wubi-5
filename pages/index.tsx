@@ -87,7 +87,13 @@ export default function Home() {
       </button>
       <div className="flex flex-wrap justify-center my-2">
         <div className="w-[480px] h-[360px]">
-          {!!image && (<Image layout="fill" width={480} height={360} src={image || ''} alt={image || ''} />)}
+          {!!image && (<Image
+            layout="fill"
+            objectFit="cover"
+            width={480}
+            height={360}
+            src={image || ''}
+            alt={image || ''} />)}
         </div>
       </div>
       <div className="flex">
@@ -99,7 +105,15 @@ export default function Home() {
                   <p className="text-[24px]">{key}</p>
                   {content[key].map((item: string) => (
                     <div key={item} className="w-20 h-20 m-2 cursor-pointer">
-                      <Image layout="fill" width={480} height={360} src={`${item}`} alt={''} onClick={() => handleImageClick(item)} />
+                      <Image
+                        layout="fill"
+                        objectFit="cover"
+                        width={480}
+                        height={360}
+                        src={`${item}`}
+                        alt={''}
+                        onClick={() => handleImageClick(item)}
+                      />
                     </div>
                   ))}
                 </div>
@@ -125,7 +139,12 @@ export default function Home() {
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="relative">
             <button onClick={handleCloseModal} className="absolute top-0 right-0 rounded-[50%] p-4 bg-red-400 text-white text-[24px]">关闭</button>
-            <Image layout="fill" width={480} height={360} src={`${modalImage}`} alt={modalImage} />
+            <Image
+              layout="fill"
+              width={480}
+              height={360}
+              src={`${modalImage}`}
+              alt={modalImage} />
           </div>
         </div>
       )}
