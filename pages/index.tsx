@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import Image from 'next/image'
 
+import {content} from '../public/data/data'
+import {kanji} from '../public/data/kanjiDictionary'
+
 type Content = {
   [key: string]: string[]
 }
@@ -13,49 +16,18 @@ function getRandomImage(content: Content) {
   return images[randomIndex]
 }
 
-const content: Content = {
-  '横':[
-    '/image/g.png',
-    '/image/f.png',
-    '/image/d.png',
-    '/image/s.png',
-    '/image/a.png',
-  ],
-  '竖':[
-    '/image/h.png',
-    '/image/j.png',
-    '/image/k.png',
-    '/image/l.png',
-    '/image/m.png',
-  ],
-  '撇':[
-    '/image/t.png',
-    '/image/r.png',
-    '/image/e.png',
-    '/image/w.png',
-    '/image/q.png',
-  ],
-  '捺':[
-    '/image/y.png',
-    '/image/u.png',
-    '/image/i.png',
-    '/image/o.png',
-    '/image/p.png',
-  ],
-  '折':[
-    '/image/x.png',
-    '/image/c.png',
-    '/image/v.png',
-    '/image/b.png',
-    '/image/n.png',
-  ],
+function getRandWord(arr: string[]) {
+  const randomIndex = Math.floor(Math.random() * arr.length)
+  return arr[randomIndex]
 }
+
 export default function Home() {
 
   const [image, setImage] = useState('')
   const [videoUrl, setVideoUrl] = useState('/videos/sample.mp4')
   const [showModal, setShowModal] = useState(false)
   const [modalImage, setModalImage] = useState('')
+  const [word, setWord] = useState('')
 
   function handleClick() {
     setImage(getRandomImage(content))
@@ -76,15 +48,24 @@ export default function Home() {
 
   useEffect(() => {
     setImage(getRandomImage(content))
+    setWord(getRandWord(kanji))
   }, [])
 
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between"
     >
-      <button onClick={handleClick} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-          随机记忆
-      </button>
+      <div className="flex">
+        <button onClick={handleClick} className="mt-4 px-4 py-2 mr-10 bg-blue-500 text-white rounded-md">
+            随机记忆
+        </button>
+        <button
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md"
+          onClick={() => {setWord(getRandWord(kanji))}}
+        >
+            随机汉字：{word || ''}
+        </button>
+      </div>
       <div className="flex flex-wrap justify-center my-2">
         <div className="w-[480px] h-[360px]">
           {!!image && (<Image
