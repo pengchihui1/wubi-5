@@ -57,11 +57,11 @@ export default function Home() {
       className="flex min-h-screen flex-col items-center justify-between"
     >
       <div className="flex">
-        <button onClick={handleClick} className="mt-4 px-4 py-2 mr-10 bg-blue-500 text-white rounded-md">
+        <button onClick={handleClick} className="mt-4 px-4 py-2 mr-10 bg-blue-500 text-white rounded-md text-4xl">
             随机记忆
         </button>
         <button
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md "
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md text-4xl"
           onClick={() => {setWord(getRandWord(kanji))}}
         >
             随机汉字：{word || ''}
