@@ -58,14 +58,16 @@ export default function Home() {
       const store = tx.objectStore('my-store')
 
       // 将输入内容保存到 IndexedDB
-      await store.add(input)
+      if (input) {
+        await store.add(input)
 
-      // 清空输入框
-      setInput('')
+        // 清空输入框
+        setInput('')
 
-      // 更新 IndexedDB 内容
-      const data: any = await store.getAll()
-      setDbContent(data.reverse()) // 反转数据数组，最新记录显示在最上面
+        // 更新 IndexedDB 内容
+        const data: any = await store.getAll()
+        setDbContent(data.reverse()) // 反转数据数组，最新记录显示在最上面
+      }
     }
   }
   const handleClearClick = async () => {
@@ -207,7 +209,7 @@ export default function Home() {
           onClick={handleClearClick}>清空记录</button>
         <div className="p-2">
           {dbContent.map((item, index) => (
-            <div key={index}>{item}</div>
+            <div key={index}>{index + 1} {item}</div>
           ))}
         </div>
       </div>
