@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Image from 'next/image'
+import {openDB} from 'idb'
 
 import {content, jiqiao} from '../public/data/data'
 import {kanji} from '../public/data/kanjiDictionary'
@@ -22,13 +23,13 @@ function getRandWord(arr: string[]) {
 }
 
 export default function Home() {
-
   const [image, setImage] = useState('')
   const [videoUrl, setVideoUrl] = useState('/videos/sample.mp4')
   const [showModal, setShowModal] = useState(false)
   const [modalImage, setModalImage] = useState('')
   const [word, setWord] = useState('')
   const [input, setInput] = useState('')
+  const [dbContent, setDbContent] = useState([])
 
   function handleClick() {
     setImage(getRandomImage(content))
@@ -47,9 +48,52 @@ export default function Home() {
     setShowModal(false)
   }
 
+  async function handleKeyPress(event: any) {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+
+      // 打开 IndexedDB 数据库
+      const db = await openDB('my-database', 1)
+      const tx = db.transaction('my-store', 'readwrite')
+      const store = tx.objectStore('my-store')
+
+      // 将输入内容保存到 IndexedDB
+      await store.add(input)
+
+      // 清空输入框
+      setInput('')
+
+      // 更新 IndexedDB 内容
+      const data: any = await store.getAll()
+      setDbContent(data.reverse()) // 反转数据数组，最新记录显示在最上面
+    }
+  }
+  const handleClearClick = async () => {
+    const db = await openDB('my-database', 1)
+    const tx = db.transaction('my-store', 'readwrite')
+    const store = tx.objectStore('my-store')
+
+    await store.clear()
+    setDbContent([])
+  }
+
   useEffect(() => {
     setImage(getRandomImage(content))
     setWord(getRandWord(kanji))
+    // 打开 IndexedDB 数据库
+    const openDatabase = async () => {
+      const db = await openDB('my-database', 1, {
+        upgrade(db) {
+          db.createObjectStore('my-store', {autoIncrement: true})
+        },
+      })
+      const tx = db.transaction('my-store', 'readonly')
+      const store = tx.objectStore('my-store')
+      const data: any = await store.getAll()
+      setDbContent(data.reverse()) // 反转数据数组，最新记录显示在最上面
+    }
+
+    openDatabase()
   }, [])
 
   return (
@@ -58,7 +102,7 @@ export default function Home() {
     >
       <div className="flex">
         <button onClick={handleClick} className="mt-4 px-4 py-2 mr-10 bg-blue-500 text-white rounded-md text-4xl">
-            随机记忆
+            随机图片
         </button>
         <button
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md text-4xl"
@@ -68,7 +112,15 @@ export default function Home() {
         </button>
       </div>
       <div className="my-2">
-        <input type="text" placeholder="" value={input} onChange={(e) => { setInput(e.target.value)}} />
+        <input
+          className="w-[500px]"
+          type="text"
+          placeholder=""
+          value={input}
+          onChange={(e) => { setInput(e.target.value)}}
+          onKeyDown={handleKeyPress}
+          // onKeyPress={handleKeyPress}
+        />
         <button
           className="bg-blue-400  mx-2 rounded-md p-2 text-white"
           onClick={() => {setInput('')}}>清空</button>
@@ -147,6 +199,18 @@ export default function Home() {
           </div>
         </div>
       )}
+      <div className="fixed left-2 top-2 w-[280px] h-[500px] overflow-auto border-solid border-2 rounded-lg">
+        <p className="text-center text-[32px]">历史记录</p>
+        <p className="text-center text-[16px]">（输入的内容回车后进入记录中）</p>
+        <button
+          className="w-full bg-blue-300"
+          onClick={handleClearClick}>清空记录</button>
+        <div className="p-2">
+          {dbContent.map((item, index) => (
+            <div key={index}>{item}</div>
+          ))}
+        </div>
+      </div>
     </main>
   )
 }
