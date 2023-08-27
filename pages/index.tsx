@@ -96,6 +96,17 @@ export default function Home() {
     }
 
     openDatabase()
+
+    // 每隔10秒更新随机图片及随机汉字
+    const interval = setInterval(function() {
+      handleClick()
+      setWord(getRandWord(kanji))
+    }, 10000)
+
+    return () => {
+      // 在组件卸载时清除定时器
+      clearInterval(interval)
+    }
   }, [])
 
   return (
